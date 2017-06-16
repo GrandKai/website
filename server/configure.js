@@ -1,6 +1,7 @@
 var path = require('path'),
   routes = require('./routes'),
   exphbs = require('express3-handlebars'),
+  moment = require('moment'),
   express = require('express'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
@@ -12,8 +13,13 @@ module.exports = function (app) {
   // configuration code...
   app.engine('handlebars', exphbs.create({
     defaultLayout: 'main',
-    layoutsDir: app.get('views') + 'layouts',
-    partialsDir: [app.get('views') + '/partials']
+    layoutsDir: app.get('views') + '/layouts',
+    partialsDir: [app.get('views') + '/partials'],
+    helpers: {
+      timeago: function (timestamp) {
+        return moment(timestamp).startOf('minute').fromNow();
+      }
+    }
 
   }).engine);
   app.set('view engine', 'handlebars');
