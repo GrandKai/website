@@ -1,3 +1,4 @@
+var sidebar = require('../helpers/sidebar');
 module.exports = {
   index: function (req, res) {
     // res.send('The home:index controller');
@@ -38,6 +39,10 @@ module.exports = {
         }
       ]
     };
-    res.render('index', viewModal);
+
+    sidebar(viewModal, function (viewModal) {
+      console.log('home view callback viewModal', viewModal);
+      res.render('index', viewModal);
+    });
   }
 };
